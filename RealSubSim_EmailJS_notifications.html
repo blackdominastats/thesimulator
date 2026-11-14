@@ -3371,7 +3371,9 @@
                 const previousStatus=r.status;
                 reviewCopyrightRequestWithAI(r).then(()=>{
                     applyCopyrightStrikeIfAccepted(r,previousStatus);
-                    saveState();renderCopyrightCenter();showCyberAlert('AI review complete',r.reason);
+                    saveState();renderCopyrightCenter();
+                    notifyCopyrightReviewResult(r);
+                    showCyberAlert('AI review complete',r.reason);
                 }).catch(error=>showCyberAlert('AI review failed',String(error.message||error)+'\n\nThe request was not changed.'));
                 return;
             }
@@ -3385,7 +3387,9 @@
                 r.history.push({status:'Information provided',at:Date.now(),note:extra.trim()});
                 reviewCopyrightRequestWithAI(r).then(()=>{
                     applyCopyrightStrikeIfAccepted(r,previousStatus);
-                    saveState();renderCopyrightCenter();showCyberAlert('AI review updated',r.reason);
+                    saveState();renderCopyrightCenter();
+                    notifyCopyrightReviewResult(r);
+                    showCyberAlert('AI review updated',r.reason);
                 }).catch(error=>showCyberAlert('AI review failed',String(error.message||error)+'\n\nThe request was not changed.'));
                 return;
             }
