@@ -3522,7 +3522,7 @@
             return window.__realsubsimEmailJsLoading;
         }
         async function sendCopyrightEmail(toEmail, subject, message) {
-            if (!toEmail || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(toEmail)) return;
+            if (!toEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(toEmail)) return;
             const settings = getCopyrightEmailJSSettings();
             if (!settings.service || !settings.template || !settings.publicKey) throw new Error('Save your EmailJS Service ID, Template ID, and Public Key first.');
             const sdk = await ensureEmailJSSdk();
@@ -3542,12 +3542,12 @@
         }
         async function notifyCopyrightRequestSubmitted(request) {
             const recipients = [...new Set([request.email, request.secondaryEmail].filter(Boolean))];
-            const message = 'Your RealSubSim copyright removal request has been submitted and is Under review. The simulator review usually takes 1–3 minutes.\\n\\nRequest: ' + request.id + '\\nReported video: ' + (request.reportedTitle || request.reportedUrl) + '\\n\\nThis is a simulator notification, not a YouTube email.';
+            const message = 'Your RealSubSim copyright removal request has been submitted and is Under review. The simulator review usually takes 1–3 minutes.\n\nRequest: ' + request.id + '\nReported video: ' + (request.reportedTitle || request.reportedUrl) + '\n\nThis is a simulator notification, not a YouTube email.';
             for (const recipient of recipients) { try { await sendCopyrightEmail(recipient, 'RealSubSim: request submitted', message); } catch (error) { console.warn('RealSubSim submission email failed:', error); } }
         }
         async function notifyCopyrightReviewResult(request) {
             const recipients = [...new Set([request.email, request.secondaryEmail].filter(Boolean))];
-            const message = 'Your RealSubSim copyright request review is complete.\\n\\nStatus: ' + request.status + '\\nReason: ' + (request.reason || 'No reason supplied.') + '\\nRequest: ' + request.id + '\\n\\nThis is a simulator notification, not a YouTube email. The decision is simulated and is not an official YouTube decision.';
+            const message = 'Your RealSubSim copyright request review is complete.\n\nStatus: ' + request.status + '\nReason: ' + (request.reason || 'No reason supplied.') + '\nRequest: ' + request.id + '\n\nThis is a simulator notification, not a YouTube email. The decision is simulated and is not an official YouTube decision.';
             for (const recipient of recipients) { try { await sendCopyrightEmail(recipient, 'RealSubSim: review result — ' + request.status, message); } catch (error) { console.warn('RealSubSim result email failed:', error); } }
         }
 
